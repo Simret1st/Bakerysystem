@@ -1,0 +1,124 @@
+import os
+import time
+import sys
+# ------------------- Sweet Surrender Bakery -------------------
+# Inventory Management System
+# This program tracks ingredients, updates quantities, and allows basic search operations.
+
+# ------------------- VARIABLES & DATA TYPES -------------------
+# Dictionary to store inventory items (str) and their quantities (int)
+inventory = {
+    "flour": 10,
+    "sugar": 8,
+    "butter": 5,
+    "eggs": 12,
+    "yeast": 3,
+    "baking powder": 4,
+    "baking soda": 2,
+    "milk": 6,
+    "salt": 7,
+    "vanilla": 1
+}
+
+# ------------------- FUNCTIONS -------------------
+
+def display_menu():
+    """Display the main menu options to the user."""
+    print("=" * 45)
+    print(" Sweet Surrender Bakery - Inventory Management ")
+    print("=" * 45)
+    print("1. Add new ingredients")
+    print("2. Check ingredient levels")
+    print("3. Update ingredient levels")
+    print("4. Simple search")
+    print("5. Exit")
+
+def get_user_choice():
+    """
+    Get and validate the user's menu choice.
+    Returns: int between 1 and 5
+    """
+    try:
+        choice = int(input("Enter your choice (1-5): "))
+        if 1 <= choice <= 5:
+            return choice
+        else:
+            print("Invalid choice. Please enter a number between 1 and 5.")
+            return get_user_choice()
+    except ValueError:
+        print("Invalid input. Please enter a number.")
+        return get_user_choice()
+
+def add_ingredient():
+    """
+    Adds a new ingredient or updates an existing one.
+    Inputs: name (str), quantity (int)
+    """
+    name = input("Enter the name of the ingredient: ").lower()
+    try:
+        quantity = int(input(f"Enter quantity for {name}: "))
+        inventory[name] = inventory.get(name, 0) + quantity
+        print(f"{name.title()} added/updated. New quantity: {inventory[name]}")
+    except ValueError:
+        print("Invalid quantity. Please enter a number.")
+
+def check_ingredient_levels():
+    """
+    Displays the current quantity of all ingredients.
+    Loops through dictionary to list items.
+    """
+    print("\n Current Inventory Levels:")
+    for item, qty in inventory.items():
+        print(f"{item.title()}: {qty}")
+
+def update_ingredient_levels():
+    """
+    Updates the quantity for a specific existing ingredient.
+    """
+    name = input("Enter the ingredient to update: ").lower()
+    if name in inventory:
+        try:
+            quantity = int(input(f"Enter new quantity for {name}: "))
+            inventory[name] = quantity
+            print(f"{name.title()} updated to {quantity}.")
+        except ValueError:
+            print("Invalid quantity. Please enter a number.")
+    else:
+        print(f"{name.title()} is not in the inventory.")
+
+def simple_search():
+    """
+    Searches for an ingredient and returns its quantity.
+    """
+    name = input("Enter the ingredient to search: ").lower()
+    if name in inventory:
+        print(f"{name.title()} is available. Quantity: {inventory[name]}")
+    else:
+        print(f"{name.title()} is not found in the inventory.")
+
+# ------------------- MAIN PROGRAM -------------------
+def main():
+    """
+    Main loop that drives the menu navigation.
+    Uses control structures: while loop, if-elif-else.
+    """
+    while True:
+        display_menu()
+        choice = get_user_choice()
+
+        if choice == 1:
+            add_ingredient()
+        elif choice == 2:
+            check_ingredient_levels()
+        elif choice == 3:
+            update_ingredient_levels()
+        elif choice == 4:
+            simple_search()
+        elif choice == 5:
+            print("Exiting the system. Goodbye! ")
+            break
+
+# ------------------- MODULE ENTRY POINT -------------------
+# Ensures code runs only if executed directly
+if __name__ == "__main__":
+    main()
